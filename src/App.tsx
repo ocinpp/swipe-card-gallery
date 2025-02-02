@@ -104,10 +104,11 @@ function App() {
       return {
         style: {
           background: "white",
+          touchAction: "none",
         },
         html: (
           <div
-            className="w-full h-full flex items-center justify-center touch-none"
+            className="w-full h-full flex items-center justify-center"
             dangerouslySetInnerHTML={{ __html: card.content }}
           />
         ),
@@ -119,7 +120,7 @@ function App() {
     <div className="min-h-screen bg-gray-900 flex items-center justify-center">
       <div className="relative w-[300px] h-[450px]">
         <div className="absolute inset-0">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="sync">
             {cards.map((card, index) => {
               const cardContent = renderCardContent(card);
               return (
