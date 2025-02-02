@@ -6,6 +6,8 @@ import { useDrag } from "@use-gesture/react";
 type Card = {
   type: "image" | "html";
   content: string;
+  y: number;
+  rotateZ: number;
 };
 
 // Sample cards with both images and HTML
@@ -13,42 +15,69 @@ const initialCards: Card[] = [
   {
     type: "image",
     content: "https://picsum.photos/id/1018/400/600",
+    y: 0,
+    rotateZ: 0,
   },
   {
     type: "image",
     content: "https://picsum.photos/id/1015/400/600",
+    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
     type: "image",
     content: "https://picsum.photos/id/1016/400/600",
+    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
     type: "image",
     content: "https://picsum.photos/id/1020/400/600",
+    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
-    type: "html",
-    content: '<div class="text-4xl font-bold select-none">Hello World</div>',
+    type: "image",
+    content: "https://picsum.photos/id/1006/400/600",
+    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
     type: "image",
     content: "https://picsum.photos/id/1031/400/600",
+    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
     type: "image",
     content: "https://picsum.photos/id/1032/400/600",
+    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
     type: "image",
     content: "https://picsum.photos/id/1033/400/600",
+    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
     type: "image",
     content: "https://picsum.photos/id/1005/400/600",
+    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+  },
+  {
+    type: "image",
+    content: "https://picsum.photos/id/1001/400/600",
+    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
     type: "html",
-    content: '<div class="text-4xl font-bold select-none">Thank You</div>',
+    content:
+      '<div class="text-4xl font-bold m-4 select-none">Thank You for Viewing</div>',
+    y: 0,
+    rotateZ: 0,
   },
 ];
 
@@ -99,6 +128,8 @@ function App() {
           backgroundPosition: "center",
           touchAction: "none",
         },
+        y: card.y,
+        rotateZ: card.rotateZ,
       };
     } else {
       return {
@@ -112,12 +143,14 @@ function App() {
             dangerouslySetInnerHTML={{ __html: card.content }}
           />
         ),
+        y: card.y,
+        rotateZ: card.rotateZ,
       };
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+    <div className="h-dvh bg-gray-900 flex items-center justify-center overflow-hidden">
       <div className="relative w-[300px] h-[450px]">
         <div className="absolute inset-0">
           <AnimatePresence mode="sync">
@@ -143,29 +176,27 @@ function App() {
                     ...cardContent.style,
                   }}
                   initial={{
-                    scale: 1 - index * 0.05,
-                    y: index * 15,
-                    zIndex: cards.length - index,
                     x: 0,
-                    rotateZ: 0,
+                    y: cardContent.y,
+                    zIndex: cards.length - index,
+                    rotateZ: cardContent.rotateZ,
                     opacity: 1,
                   }}
                   animate={{
-                    scale: 1 - index * 0.05,
-                    y: index * 15,
-                    zIndex: cards.length - index,
                     x:
                       index === 0
                         ? isExiting
                           ? exitDirection * window.innerWidth
                           : dragX
                         : 0,
+                    y: cardContent.y,
+                    zIndex: cards.length - index,
                     rotateZ:
                       index === 0
                         ? isExiting
                           ? exitDirection * 45
-                          : dragX * 0.1
-                        : 0,
+                          : 0
+                        : cardContent.rotateZ,
                     opacity: index === 0 && isExiting ? 0 : 1,
                   }}
                   transition={{
@@ -191,7 +222,7 @@ function App() {
         </div>
       </div>
 
-      <div className="absolute bottom-4 text-white text-center">
+      <div className="absolute bottom-2 text-white text-center">
         <p>Swipe or drag the top image to cycle through the stack</p>
       </div>
     </div>
