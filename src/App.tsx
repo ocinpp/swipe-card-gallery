@@ -195,7 +195,7 @@ function App() {
                       index === 0
                         ? isExiting
                           ? exitDirection * 45
-                          : 0
+                          : cardContent.rotateZ
                         : cardContent.rotateZ,
                     opacity: index === 0 && isExiting ? 0 : 1,
                   }}
