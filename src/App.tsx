@@ -13,6 +13,13 @@ type Card = {
 // Sample cards with both images and HTML
 const initialCards: Card[] = [
   {
+    type: "html",
+    content:
+      '<div class="text-4xl font-bold m-4 select-none">Swipe or Drag to Start</div>',
+    y: 0,
+    rotateZ: 0,
+  },
+  {
     type: "image",
     content: "https://picsum.photos/id/1018/400/600",
     y: 0,
@@ -222,9 +229,9 @@ function App() {
         </div>
       </div>
 
-      <div className="absolute bottom-2 text-white text-center">
+      {/* <div className="absolute bottom-2 text-white text-center">
         <p>Swipe or drag the top image to cycle through the stack</p>
-      </div>
+      </div> */}
     </div>
   );
 }
