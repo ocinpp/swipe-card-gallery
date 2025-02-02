@@ -97,6 +97,7 @@ function App() {
           backgroundImage: `url(${card.content})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
+          touchAction: "none",
         },
       };
     } else {
@@ -106,7 +107,7 @@ function App() {
         },
         html: (
           <div
-            className="w-full h-full flex items-center justify-center"
+            className="w-full h-full flex items-center justify-center touch-none"
             dangerouslySetInnerHTML={{ __html: card.content }}
           />
         ),
