@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useDrag } from "@use-gesture/react";
+import ImagePreloader from "./components/ImagePreloader";
 
 // Define a type for our card content
 type Card = {
@@ -22,8 +23,8 @@ const initialCards: Card[] = [
   {
     type: "image",
     content: "https://picsum.photos/id/1018/400/600",
-    y: 0,
-    rotateZ: 0,
+    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
     type: "image",
@@ -88,7 +89,7 @@ const initialCards: Card[] = [
   },
 ];
 
-function App() {
+function CardStack() {
   const [cards, setCards] = useState(initialCards);
   const [isDragging, setIsDragging] = useState(false);
   const [dragX, setDragX] = useState(0);
@@ -228,11 +229,15 @@ function App() {
           </AnimatePresence>
         </div>
       </div>
-
-      {/* <div className="absolute bottom-2 text-white text-center">
-        <p>Swipe or drag the top image to cycle through the stack</p>
-      </div> */}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <ImagePreloader cards={initialCards}>
+      <CardStack />
+    </ImagePreloader>
   );
 }
 
