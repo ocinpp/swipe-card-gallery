@@ -6,6 +6,7 @@ import ImagePreloader from "./components/ImagePreloader";
 // Define a type for our card content
 type Card = {
   type: "image" | "html";
+  bgClassName?: string;
   content: string;
   y: number;
   rotateZ: number;
@@ -15,8 +16,9 @@ type Card = {
 const initialCards: Card[] = [
   {
     type: "html",
+    bgClassName: "bg-gradient-to-r from-violet-500 to-blue-400",
     content:
-      '<div class="text-4xl font-bold m-4 select-none">Swipe or Drag to Start</div>',
+      '<div class="text-4xl font-bold m-4 text-slate-200 select-none">Swipe or Drag to Start</div>',
     y: 0,
     rotateZ: 0,
   },
@@ -82,8 +84,9 @@ const initialCards: Card[] = [
   },
   {
     type: "html",
+    bgClassName: "bg-gradient-to-r from-red-500 to-rose-400",
     content:
-      '<div class="text-4xl font-bold m-4 select-none">Thank You for Viewing</div>',
+      '<div class="text-4xl font-bold m-4 text-slate-200 select-none">Thank You for Viewing</div>',
     y: 0,
     rotateZ: 0,
   },
@@ -142,9 +145,9 @@ function CardStack() {
     } else {
       return {
         style: {
-          background: "white",
           touchAction: "none",
         },
+        className: card.bgClassName,
         html: (
           <div
             className="w-full h-full flex items-center justify-center"
@@ -221,6 +224,7 @@ function CardStack() {
                   }}
                   dragConstraints={{ left: 0, right: 0 }}
                   dragElastic={1}
+                  className={cardContent.className}
                 >
                   {cardContent.html}
                 </motion.div>
