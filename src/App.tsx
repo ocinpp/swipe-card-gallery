@@ -18,7 +18,7 @@ const initialCards: Card[] = [
     type: "html",
     bgClassName: "bg-gradient-to-r from-violet-500 to-blue-400",
     content:
-      '<div class="text-4xl font-bold m-4 text-slate-200 select-none">Swipe or Drag to Start</div>',
+      '<div class="text-4xl font-bold m-4 text-slate-200 select-none">Swipe or Drag to <u>Start</u></div>',
     y: 0,
     rotateZ: 0,
   },
