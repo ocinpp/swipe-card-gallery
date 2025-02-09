@@ -3,6 +3,9 @@ import { motion, AnimatePresence } from "motion/react";
 import { useDrag } from "@use-gesture/react";
 import ImagePreloader from "./components/ImagePreloader";
 
+const OFFSET_Y = 25;
+const OFFEST_ROTATEZ = 45;
+
 // Define a type for our card content
 type Card = {
   type: "image" | "html";
@@ -25,62 +28,92 @@ const initialCards: Card[] = [
   {
     type: "image",
     content: "https://picsum.photos/id/1018/400/600",
-    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
-    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ:
+      OFFEST_ROTATEZ *
+      Math.random() *
+      Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
     type: "image",
     content: "https://picsum.photos/id/1015/400/600",
-    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
-    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ:
+      OFFEST_ROTATEZ *
+      Math.random() *
+      Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
     type: "image",
     content: "https://picsum.photos/id/1016/400/600",
-    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
-    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ:
+      OFFEST_ROTATEZ *
+      Math.random() *
+      Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
     type: "image",
     content: "https://picsum.photos/id/1020/400/600",
-    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
-    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ:
+      OFFEST_ROTATEZ *
+      Math.random() *
+      Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
     type: "image",
     content: "https://picsum.photos/id/1006/400/600",
-    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
-    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ:
+      OFFEST_ROTATEZ *
+      Math.random() *
+      Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
     type: "image",
     content: "https://picsum.photos/id/1031/400/600",
-    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
-    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ:
+      OFFEST_ROTATEZ *
+      Math.random() *
+      Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
     type: "image",
     content: "https://picsum.photos/id/1032/400/600",
-    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
-    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ:
+      OFFEST_ROTATEZ *
+      Math.random() *
+      Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
     type: "image",
     content: "https://picsum.photos/id/1033/400/600",
-    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
-    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ:
+      OFFEST_ROTATEZ *
+      Math.random() *
+      Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
     type: "image",
     content: "https://picsum.photos/id/1005/400/600",
-    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
-    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ:
+      OFFEST_ROTATEZ *
+      Math.random() *
+      Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
     type: "image",
     content: "https://picsum.photos/id/1001/400/600",
-    y: 25 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
-    rotateZ: 45 * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
+    rotateZ:
+      OFFEST_ROTATEZ *
+      Math.random() *
+      Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
     type: "html",
