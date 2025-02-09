@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useDrag } from "@use-gesture/react";
 import ImagePreloader from "./components/ImagePreloader";
@@ -18,7 +18,7 @@ const initialCards: Card[] = [
     type: "html",
     bgClassName: "bg-gradient-to-r from-violet-500 to-blue-400",
     content:
-      '<div class="text-4xl font-bold m-4 text-slate-200 select-none">Swipe or Drag to <u>Start</u></div>',
+      '<div class="text-4xl font-bold m-4 text-slate-200 pointer-events-none">Swipe or Drag to <u>Start</u></div>',
     y: 0,
     rotateZ: 0,
   },
@@ -86,7 +86,7 @@ const initialCards: Card[] = [
     type: "html",
     bgClassName: "bg-gradient-to-r from-red-500 to-rose-400",
     content:
-      '<div class="text-4xl font-bold m-4 text-slate-200 select-none">Thank You for Viewing</div>',
+      '<div class="text-4xl font-bold m-4 text-slate-200 pointer-events-none">Thank You for Viewing</div>',
     y: 0,
     rotateZ: 0,
   },
@@ -98,35 +98,85 @@ function CardStack() {
   const [dragX, setDragX] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
   const [exitDirection, setExitDirection] = useState(0);
+  const [swipeDirection, setSwipeDirection] = useState<"left" | "right" | null>(
+    null
+  );
 
-  const handleSwipe = () => {
-    const direction = dragX > 0 ? 1 : -1;
+  const swipeTimeoutRef = useRef<number | null>(null);
+  const resetTimeoutRef = useRef<number | null>(null);
+
+  const clearTimeouts = () => {
+    if (swipeTimeoutRef.current) {
+      clearTimeout(swipeTimeoutRef.current);
+      swipeTimeoutRef.current = null;
+    }
+    if (resetTimeoutRef.current) {
+      clearTimeout(resetTimeoutRef.current);
+      resetTimeoutRef.current = null;
+    }
+  };
+
+  const resetSwipeState = () => {
+    setIsExiting(false);
+    setDragX(0);
+    setIsDragging(false);
+    setSwipeDirection(null);
+    clearTimeouts();
+  };
+
+  const handleSwipe = (direction: number) => {
+    clearTimeouts();
+
     setExitDirection(direction);
     setIsExiting(true);
+    setSwipeDirection(direction > 0 ? "right" : "left");
 
-    setTimeout(() => {
+    swipeTimeoutRef.current = window.setTimeout(() => {
       setCards((current) => {
         const [first, ...rest] = current;
         return [...rest, first];
       });
+
       setDragX(0);
       setIsExiting(false);
+
+      resetTimeoutRef.current = window.setTimeout(() => {
+        setSwipeDirection(null);
+      }, 1000);
     }, 200);
   };
 
   const bind = useDrag(
-    ({ movement: [x], velocity: [vx], active, last }) => {
-      setIsDragging(active);
-      setDragX(active ? x : 0);
+    ({ movement: [x], velocity: [vx], active, last, cancel, event }) => {
+      // Prevent default to stop text selection
+      event.preventDefault();
 
-      if (!active && (Math.abs(x) > 100 || Math.abs(vx) > 0.5)) {
-        handleSwipe();
+      if (isExiting) {
+        cancel();
+        return;
+      }
+
+      setIsDragging(active);
+
+      if (active) {
+        setDragX(x);
+        if (Math.abs(x) > 20) {
+          setSwipeDirection(x > 0 ? "right" : "left");
+        }
+      } else {
+        if (Math.abs(x) > 100 || Math.abs(vx) > 0.5) {
+          handleSwipe(x > 0 ? 1 : -1);
+        } else {
+          resetSwipeState();
+        }
       }
     },
     {
       axis: "x",
       filterTaps: true,
-      from: () => [0, 0],
+      from: () => [dragX, 0],
+      bounds: { left: -1000, right: 1000 },
+      rubberband: true,
     }
   );
 
@@ -138,6 +188,7 @@ function CardStack() {
           backgroundSize: "cover",
           backgroundPosition: "center",
           touchAction: "none",
+          userSelect: "none",
         },
         y: card.y,
         rotateZ: card.rotateZ,
@@ -146,11 +197,12 @@ function CardStack() {
       return {
         style: {
           touchAction: "none",
+          userSelect: "none",
         },
         className: card.bgClassName,
         html: (
           <div
-            className="w-full h-full flex items-center justify-center"
+            className="w-full h-full flex items-center justify-center select-none"
             dangerouslySetInnerHTML={{ __html: card.content }}
           />
         ),
@@ -206,7 +258,7 @@ function CardStack() {
                       index === 0
                         ? isExiting
                           ? exitDirection * 45
-                          : cardContent.rotateZ
+                          : cardContent.rotateZ + dragX * 0.1
                         : cardContent.rotateZ,
                     opacity: index === 0 && isExiting ? 0 : 1,
                   }}
@@ -233,6 +285,18 @@ function CardStack() {
           </AnimatePresence>
         </div>
       </div>
+      <AnimatePresence>
+        {swipeDirection && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed bottom-4 right-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg text-white font-mono text-sm"
+          >
+            Swipe {swipeDirection}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
