@@ -8,11 +8,13 @@ const OFFEST_ROTATEZ = 45;
 
 // Define a type for our card content
 type Card = {
-  type: "image" | "html";
+  type: "image" | "html" | "switch";
   bgClassName?: string;
   content: string;
   y: number;
   rotateZ: number;
+  left?: "bwfilter" | "nothing" | null;
+  right?: "bwfilter" | "nothing" | null;
 };
 
 // Sample cards with both images and HTML
@@ -24,6 +26,16 @@ const initialCards: Card[] = [
       '<div class="text-4xl font-bold m-4 text-slate-200 pointer-events-none">Swipe or Drag to <u>Start</u></div>',
     y: 0,
     rotateZ: 0,
+  },
+  {
+    type: "switch",
+    bgClassName: "bg-gradient-to-r from-gray-700 to-gray-900",
+    content:
+      '<div class="text-4xl font-bold m-4 text-slate-200 pointer-events-none">Left B&W | Right Colour</div>',
+    y: 0,
+    rotateZ: 0,
+    left: "bwfilter",
+    right: "nothing",
   },
   {
     type: "image",
@@ -126,7 +138,7 @@ const initialCards: Card[] = [
 ];
 
 function CardStack() {
-  const [cards, setCards] = useState(initialCards);
+  const [cardIndex, setCardIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragX, setDragX] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
@@ -134,6 +146,7 @@ function CardStack() {
   const [swipeDirection, setSwipeDirection] = useState<"left" | "right" | null>(
     null
   );
+  const [bwFilterEnabled, setBWFilterEnabled] = useState(false);
 
   const swipeTimeoutRef = useRef<number | null>(null);
   const resetTimeoutRef = useRef<number | null>(null);
@@ -160,14 +173,24 @@ function CardStack() {
   const handleSwipe = (direction: number) => {
     clearTimeouts();
 
+    const currentCard = initialCards[cardIndex];
+    if (currentCard.type === "switch") {
+      const action = direction > 0 ? currentCard.right : currentCard.left;
+      setBWFilterEnabled(action === "bwfilter");
+    }
+
     setExitDirection(direction);
     setIsExiting(true);
     setSwipeDirection(direction > 0 ? "right" : "left");
 
     swipeTimeoutRef.current = window.setTimeout(() => {
-      setCards((current) => {
-        const [first, ...rest] = current;
-        return [...rest, first];
+      setCardIndex((current) => {
+        const nextIndex = (current + 1) % initialCards.length;
+        // Reset filter when returning to first card
+        if (nextIndex === 0) {
+          setBWFilterEnabled(false);
+        }
+        return nextIndex;
       });
 
       setDragX(0);
@@ -180,7 +203,7 @@ function CardStack() {
   };
 
   const bind = useDrag(
-    ({ movement: [x], velocity: [vx], active, last, cancel, event }) => {
+    ({ movement: [x], velocity: [vx], active, cancel, event }) => {
       // Prevent default to stop text selection
       event.preventDefault();
 
@@ -213,7 +236,7 @@ function CardStack() {
     }
   );
 
-  const renderCardContent = (card: Card) => {
+  const renderCardContent = (card: Card, index: number) => {
     if (card.type === "image") {
       return {
         style: {
@@ -222,6 +245,7 @@ function CardStack() {
           backgroundPosition: "center",
           touchAction: "none",
           userSelect: "none",
+          filter: bwFilterEnabled ? "grayscale(100%)" : "none",
         },
         y: card.y,
         rotateZ: card.rotateZ,
@@ -245,16 +269,20 @@ function CardStack() {
     }
   };
 
+  const visibleCards = initialCards
+    .slice(cardIndex)
+    .concat(initialCards.slice(0, cardIndex));
+
   return (
     <div className="h-dvh bg-gray-900 flex items-center justify-center overflow-hidden">
       <div className="relative w-[300px] h-[450px]">
         <div className="absolute inset-0">
           <AnimatePresence mode="sync">
-            {cards.map((card, index) => {
-              const cardContent = renderCardContent(card);
+            {visibleCards.map((card, index) => {
+              const cardContent = renderCardContent(card, index);
               return (
                 <motion.div
-                  key={`${card.content}-${index}`}
+                  key={`${card.content}-${cardIndex + index}`}
                   {...(index === 0 ? bind() : {})}
                   style={{
                     position: "absolute",
@@ -274,7 +302,7 @@ function CardStack() {
                   initial={{
                     x: 0,
                     y: cardContent.y,
-                    zIndex: cards.length - index,
+                    zIndex: visibleCards.length - index,
                     rotateZ: cardContent.rotateZ,
                     opacity: 1,
                   }}
@@ -286,7 +314,7 @@ function CardStack() {
                           : dragX
                         : 0,
                     y: cardContent.y,
-                    zIndex: cards.length - index,
+                    zIndex: visibleCards.length - index,
                     rotateZ:
                       index === 0
                         ? isExiting
@@ -326,7 +354,7 @@ function CardStack() {
             exit={{ opacity: 0, y: 20 }}
             className="fixed bottom-4 right-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg text-white font-mono text-sm"
           >
-            Swipe {swipeDirection}
+            {bwFilterEnabled ? "B&W Mode" : "Color Mode"}
           </motion.div>
         )}
       </AnimatePresence>
