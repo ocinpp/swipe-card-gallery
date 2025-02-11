@@ -31,7 +31,7 @@ const initialCards: Card[] = [
     type: "switch",
     bgClassName: "bg-gradient-to-r from-gray-700 to-gray-900",
     content:
-      '<div class="text-4xl font-bold m-4 text-slate-200 pointer-events-none">L - B&W <br>R - Colours</div>',
+      '<div class="text-4xl font-bold m-4 text-slate-200 pointer-events-none">Swipe Left for B&W mode</div>',
     y: 0,
     rotateZ: 0,
     left: "bwfilter",
