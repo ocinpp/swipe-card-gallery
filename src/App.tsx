@@ -408,9 +408,9 @@ function CardStack() {
             className="fixed bottom-4 right-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg text-white font-mono text-sm"
           >
             {swipeDirection === "up"
-              ? "⬆ Up"
+              ? "↑ Up"
               : swipeDirection === "down"
-              ? "⬇ Down"
+              ? "↓ Down"
               : swipeDirection === "left"
               ? "← Left"
               : swipeDirection === "right"
