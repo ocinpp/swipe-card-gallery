@@ -23,7 +23,7 @@ const initialCards: Card[] = [
     type: "html",
     bgClassName: "bg-gradient-to-r from-violet-500 to-blue-400",
     content:
-      '<div class="text-4xl font-bold m-4 text-slate-200 pointer-events-none">Swipe or Drag to <u>Start</u></div>',
+      '<div class="text-4xl font-bold m-4 text-slate-200 pointer-events-none">Swipe to <u>Start</u></div>',
     y: 0,
     rotateZ: 0,
   },
@@ -140,6 +140,7 @@ const initialCards: Card[] = [
 function CardStack() {
   const [cardIndex, setCardIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [isInitialState, setIsInitialState] = useState(true);
   const [dragX, setDragX] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
   const [exitDirection, setExitDirection] = useState(0);
@@ -172,6 +173,7 @@ function CardStack() {
 
   const handleSwipe = (direction: number) => {
     clearTimeouts();
+    setIsInitialState(false);
 
     const currentCard = initialCards[cardIndex];
     if (currentCard.type === "switch") {
@@ -186,6 +188,7 @@ function CardStack() {
     swipeTimeoutRef.current = window.setTimeout(() => {
       setCardIndex((current) => {
         const nextIndex = (current + 1) % initialCards.length;
+
         // Reset filter when returning to first card
         if (nextIndex === 0) {
           setBWFilterEnabled(false);
@@ -280,48 +283,59 @@ function CardStack() {
           <AnimatePresence mode="sync">
             {visibleCards.map((card, index) => {
               const cardContent = renderCardContent(card, index);
+              const isFirstCard = index === 0;
+              const isLastCard = index === visibleCards.length - 1;
+
               return (
                 <motion.div
-                  key={`${card.content}-${cardIndex + index}`}
-                  {...(index === 0 ? bind() : {})}
+                  key={`${card.content}-${cardIndex}`}
+                  {...(isFirstCard ? bind() : {})}
                   style={{
                     position: "absolute",
                     width: "100%",
                     height: "100%",
                     borderRadius: "10px",
-                    pointerEvents: index === 0 ? "auto" : "none",
+                    pointerEvents: isFirstCard ? "auto" : "none",
                     cursor:
-                      index === 0 && !isDragging
+                      isFirstCard && !isDragging
                         ? "grab"
-                        : index === 0
+                        : isFirstCard
                         ? "grabbing"
                         : "default",
                     transformOrigin: "50% 50%",
                     ...cardContent.style,
                   }}
-                  initial={{
-                    x: 0,
-                    y: cardContent.y,
-                    zIndex: visibleCards.length - index,
-                    rotateZ: cardContent.rotateZ,
-                    opacity: 1,
-                  }}
+                  initial={
+                    isLastCard && !isInitialState
+                      ? {
+                          x: 0,
+                          y: cardContent.y + 50,
+                          zIndex: -1,
+                          rotateZ: cardContent.rotateZ,
+                          opacity: 0,
+                        }
+                      : {
+                          x: 0,
+                          y: cardContent.y,
+                          zIndex: visibleCards.length - index,
+                          rotateZ: cardContent.rotateZ,
+                          opacity: 1,
+                        }
+                  }
                   animate={{
-                    x:
-                      index === 0
-                        ? isExiting
-                          ? exitDirection * window.innerWidth
-                          : dragX
-                        : 0,
+                    x: isFirstCard
+                      ? isExiting
+                        ? exitDirection * window.innerWidth
+                        : dragX
+                      : 0,
                     y: cardContent.y,
                     zIndex: visibleCards.length - index,
-                    rotateZ:
-                      index === 0
-                        ? isExiting
-                          ? exitDirection * 45
-                          : cardContent.rotateZ + dragX * 0.1
-                        : cardContent.rotateZ,
-                    opacity: index === 0 && isExiting ? 0 : 1,
+                    rotateZ: isFirstCard
+                      ? isExiting
+                        ? exitDirection * 45
+                        : cardContent.rotateZ + dragX * 0.1
+                      : cardContent.rotateZ,
+                    opacity: isFirstCard && isExiting ? 0 : 1,
                   }}
                   transition={{
                     type: "spring",
@@ -329,7 +343,7 @@ function CardStack() {
                     damping: 30,
                     mass: 0.5,
                     ...(isExiting &&
-                      index === 0 && {
+                      isFirstCard && {
                         duration: 0.2,
                         type: "tween",
                         ease: "easeOut",
