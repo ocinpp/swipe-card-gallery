@@ -8,7 +8,7 @@ const OFFEST_ROTATEZ = 45;
 
 // Define a type for our card content
 type Card = {
-  type: "image" | "html" | "switch";
+  type: "image" | "html" | "switch" | "result";
   bgClassName?: string;
   content: string;
   y: number;
@@ -128,10 +128,10 @@ const initialCards: Card[] = [
       Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
-    type: "html",
+    type: "result",
     bgClassName: "bg-gradient-to-r from-red-500 to-rose-400",
     content:
-      '<div class="text-4xl font-bold m-4 text-slate-200 pointer-events-none">Thank You for Viewing</div>',
+      '<div class="text-4xl font-bold m-4 text-slate-200 pointer-events-none">Swipe Results</div>',
     y: 0,
     rotateZ: 0,
   },
@@ -150,6 +150,12 @@ function CardStack() {
     "left" | "right" | "up" | "down" | null
   >(null);
   const [bwFilterEnabled, setBWFilterEnabled] = useState(false);
+  const [swipeCounts, setSwipeCounts] = useState({
+    up: 0,
+    down: 0,
+    left: 0,
+    right: 0,
+  });
 
   const swipeTimeoutRef = useRef<number | null>(null);
   const resetTimeoutRef = useRef<number | null>(null);
@@ -188,15 +194,31 @@ function CardStack() {
     setExitAxis(axis);
     setIsExiting(true);
 
+    let newDirection: "left" | "right" | "up" | "down" | null = null;
+
     if (axis === "x") {
-      setSwipeDirection(direction > 0 ? "right" : "left");
+      newDirection = direction > 0 ? "right" : "left";
     } else {
-      setSwipeDirection(direction > 0 ? "down" : "up");
+      newDirection = direction > 0 ? "down" : "up";
+    }
+
+    setSwipeDirection(newDirection);
+
+    // Only update swipe counts for image cards
+    if (newDirection && currentCard.type === "image") {
+      setSwipeCounts((prev) => ({
+        ...prev,
+        [newDirection!]: prev[newDirection!] + 1,
+      }));
     }
 
     swipeTimeoutRef.current = window.setTimeout(() => {
       setCardIndex((current) => {
         const nextIndex = (current + 1) % initialCards.length;
+        // Reset counters when moving past the result card
+        if (currentCard.type === "result") {
+          setSwipeCounts({ up: 0, down: 0, left: 0, right: 0 });
+        }
         if (nextIndex === 0) {
           setBWFilterEnabled(false);
         }
@@ -229,7 +251,6 @@ function CardStack() {
         const absX = Math.abs(x);
         const absY = Math.abs(y);
 
-        // Determine primary drag axis
         if (absX > absY) {
           setDragX(x);
           setDragY(0);
@@ -283,6 +304,31 @@ function CardStack() {
           userSelect: "none",
           filter: bwFilterEnabled ? "grayscale(100%)" : "none",
         },
+        y: card.y,
+        rotateZ: card.rotateZ,
+      };
+    } else if (card.type === "result") {
+      const totalSwipes = Object.values(swipeCounts).reduce((a, b) => a + b, 0);
+      return {
+        style: {
+          touchAction: "none",
+          userSelect: "none",
+        },
+        className: card.bgClassName,
+        html: (
+          <div className="w-full h-full flex flex-col items-center justify-center select-none text-slate-200">
+            <div className="text-4xl font-bold mb-8">Image Swipes</div>
+            <div className="text-2xl space-y-4">
+              <div>⬆️ Up: {swipeCounts.up}</div>
+              <div>⬇️ Down: {swipeCounts.down}</div>
+              <div>⬅️ Left: {swipeCounts.left}</div>
+              <div>➡️ Right: {swipeCounts.right}</div>
+              <div className="pt-4 text-xl opacity-75">
+                Total: {totalSwipes}
+              </div>
+            </div>
+          </div>
+        ),
         y: card.y,
         rotateZ: card.rotateZ,
       };
@@ -408,13 +454,13 @@ function CardStack() {
             className="fixed bottom-4 right-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg text-white font-mono text-sm"
           >
             {swipeDirection === "up"
-              ? "↑ Up"
+              ? "⬆️ Up"
               : swipeDirection === "down"
-              ? "↓ Down"
+              ? "⬇️ Down"
               : swipeDirection === "left"
-              ? "← Left"
+              ? "⬅️ Left"
               : swipeDirection === "right"
-              ? "→ Right"
+              ? "➡️ Right"
               : ""}
           </motion.div>
         )}
