@@ -128,6 +128,14 @@ const initialCards: Card[] = [
       Math.pow(-1, Math.floor(Math.random() * 2)),
   },
   {
+    type: "html",
+    bgClassName: "bg-gradient-to-r from-red-500 to-rose-400",
+    content:
+      '<div class="text-4xl font-bold m-4 text-slate-200 pointer-events-none">Thank You for Viewing</div>',
+    y: 0,
+    rotateZ: 0,
+  },
+  {
     type: "result",
     bgClassName: "bg-gradient-to-r from-red-500 to-rose-400",
     content:
