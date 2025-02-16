@@ -21,7 +21,8 @@ type Card = {
 const initialCards: Card[] = [
   {
     type: "html",
-    bgClassName: "bg-gradient-to-r from-violet-500 to-blue-400",
+    bgClassName:
+      "bg-gradient-to-r from-purple-600 to-indigo-400 animate-gradient-x border-2 border-fuchsia-300",
     content:
       '<div class="text-4xl font-bold m-4 text-slate-200 pointer-events-none">Swipe<br>↑ ↓ ← →<br>to <u>Start</u></div>',
     y: 0,
@@ -29,7 +30,8 @@ const initialCards: Card[] = [
   },
   {
     type: "switch",
-    bgClassName: "bg-gradient-to-r from-gray-700 to-gray-900",
+    bgClassName:
+      "bg-gradient-to-r from-gray-700 to-gray-900 animate-gradient-x border-2 border-zinc-300",
     content:
       '<div class="text-4xl font-bold m-4 text-slate-200 pointer-events-none">Swipe Left for B&W mode</div>',
     y: 0,
@@ -129,7 +131,8 @@ const initialCards: Card[] = [
   },
   {
     type: "html",
-    bgClassName: "bg-gradient-to-r from-red-500 to-rose-400",
+    bgClassName:
+      "bg-gradient-to-r from-red-500 to-rose-400 animate-gradient-x border-2 border-rose-300",
     content:
       '<div class="text-4xl font-bold m-4 text-slate-200 pointer-events-none">Thank You for Viewing</div>',
     y: 0,
@@ -137,7 +140,8 @@ const initialCards: Card[] = [
   },
   {
     type: "result",
-    bgClassName: "bg-gradient-to-r from-red-500 to-rose-400",
+    bgClassName:
+      "bg-gradient-to-r from-red-500 to-rose-400 animate-gradient-x border-2 border-rose-300",
     content:
       '<div class="text-4xl font-bold m-4 text-slate-200 pointer-events-none">Swipe Results</div>',
     y: 0,
