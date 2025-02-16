@@ -17,7 +17,7 @@ export const initialCards: Card[] = [
     {
         type: "html",
         bgClassName:
-            "bg-gradient-to-b from-orange-600 via-yellow-500 to-blue-400 border-2 border-yellow-200",
+            "bg-gradient-to-b from-fuchsia-600 via-pink-500 to-blue-400 border-2 border-orange-200",
         content:
             '<div class="bg-gradient-to-r from-blue-600 via-sky-500 to-indigo-600 animate-gradient-x inline-block text-transparent bg-clip-text text-4xl font-bold m-4 text-slate-200 pointer-events-none">Swipe<br>↑ ↓ ← →<br>to <u>Start</u></div>',
         y: 0,
@@ -36,7 +36,7 @@ export const initialCards: Card[] = [
     },
     {
         type: "image",
-        content: "https://picsum.photos/id/1018/400/600",
+        content: "/images/1.png",
         y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
         rotateZ:
             OFFEST_ROTATEZ *
@@ -45,7 +45,7 @@ export const initialCards: Card[] = [
     },
     {
         type: "image",
-        content: "https://picsum.photos/id/1015/400/600",
+        content: "/images/2.png",
         y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
         rotateZ:
             OFFEST_ROTATEZ *
@@ -54,7 +54,7 @@ export const initialCards: Card[] = [
     },
     {
         type: "image",
-        content: "https://picsum.photos/id/1016/400/600",
+        content: "/images/3.png",
         y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
         rotateZ:
             OFFEST_ROTATEZ *
@@ -63,7 +63,7 @@ export const initialCards: Card[] = [
     },
     {
         type: "image",
-        content: "https://picsum.photos/id/1020/400/600",
+        content: "/images/4.png",
         y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
         rotateZ:
             OFFEST_ROTATEZ *
@@ -72,7 +72,7 @@ export const initialCards: Card[] = [
     },
     {
         type: "image",
-        content: "https://picsum.photos/id/1006/400/600",
+        content: "/images/5.png",
         y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
         rotateZ:
             OFFEST_ROTATEZ *
@@ -81,7 +81,7 @@ export const initialCards: Card[] = [
     },
     {
         type: "image",
-        content: "https://picsum.photos/id/1031/400/600",
+        content: "/images/6.png",
         y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
         rotateZ:
             OFFEST_ROTATEZ *
@@ -90,7 +90,7 @@ export const initialCards: Card[] = [
     },
     {
         type: "image",
-        content: "https://picsum.photos/id/1032/400/600",
+        content: "/images/7.png",
         y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
         rotateZ:
             OFFEST_ROTATEZ *
@@ -99,7 +99,7 @@ export const initialCards: Card[] = [
     },
     {
         type: "image",
-        content: "https://picsum.photos/id/1033/400/600",
+        content: "/images/8.png",
         y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
         rotateZ:
             OFFEST_ROTATEZ *
@@ -108,7 +108,7 @@ export const initialCards: Card[] = [
     },
     {
         type: "image",
-        content: "https://picsum.photos/id/1005/400/600",
+        content: "/images/9.png",
         y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
         rotateZ:
             OFFEST_ROTATEZ *
@@ -117,7 +117,7 @@ export const initialCards: Card[] = [
     },
     {
         type: "image",
-        content: "https://picsum.photos/id/1001/400/600",
+        content: "/images/10.png",
         y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
         rotateZ:
             OFFEST_ROTATEZ *

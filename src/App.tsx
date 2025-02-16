@@ -223,7 +223,7 @@ function CardStack() {
     .concat(initialCards.slice(0, cardIndex));
 
   return (
-    <div className="h-dvh bg-gray-900 flex items-center justify-center overflow-hidden">
+    <div className="h-dvh bg-fuchsia-900 flex items-center justify-center overflow-hidden">
       <div className="relative w-[300px] h-[450px]">
         <div className="absolute inset-0">
           <AnimatePresence mode="sync">
