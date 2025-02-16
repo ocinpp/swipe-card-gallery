@@ -22,9 +22,9 @@ const initialCards: Card[] = [
   {
     type: "html",
     bgClassName:
-      "bg-gradient-to-b from-orange-600 via-yellow-500 to-blue-400 border-2 border-yello-300",
+      "bg-gradient-to-b from-orange-600 via-yellow-500 to-blue-400 border-2 border-yellow-200",
     content:
-      '<div class="bg-gradient-to-r from-blue-400 via-sky-400 to-indigo-400 animate-gradient-x inline-block text-transparent bg-clip-text text-4xl font-bold m-4 text-slate-200 pointer-events-none">Swipe<br>↑ ↓ ← →<br>to <u>Start</u></div>',
+      '<div class="bg-gradient-to-r from-blue-600 via-sky-500 to-indigo-600 animate-gradient-x inline-block text-transparent bg-clip-text text-4xl font-bold m-4 text-slate-200 pointer-events-none">Swipe<br>↑ ↓ ← →<br>to <u>Start</u></div>',
     y: 0,
     rotateZ: 0,
   },
