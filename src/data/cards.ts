@@ -116,13 +116,11 @@ export const initialCards: Card[] = [
             Math.pow(-1, Math.floor(Math.random() * 2)),
     },
     {
+        // last image must have zero offset
         type: "image",
         content: "/images/10.png",
-        y: OFFSET_Y * Math.random() * Math.pow(-1, Math.floor(Math.random() * 2)),
-        rotateZ:
-            OFFEST_ROTATEZ *
-            Math.random() *
-            Math.pow(-1, Math.floor(Math.random() * 2)),
+        y: 0,
+        rotateZ: 0,
     },
     {
         type: "html",
