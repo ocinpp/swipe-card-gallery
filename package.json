@@ -10,22 +10,22 @@
   },
   "dependencies": {
     "@use-gesture/react": "^10.3.0",
-    "motion": "^12.0.6",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "motion": "^12.39.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
   },
   "devDependencies": {
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@vitejs/plugin-react": "^4.0.3",
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.31",
-    "sharp": "^0.33.5",
-    "svgo": "^3.3.2",
-    "tailwindcss": "^3.3.3",
+    "@vitejs/plugin-react": "^6.0.2",
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.15",
+    "sharp": "^0.34.5",
+    "svgo": "^4.0.1",
+    "tailwindcss": "^3.4.19",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5",
-    "vite-plugin-image-optimizer": "^1.1.8"
+    "vite": "^8.0.13",
+    "vite-plugin-image-optimizer": "^2.0.3"
   }
 }
